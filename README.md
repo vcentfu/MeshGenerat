@@ -1,3 +1,3 @@
-# génération automatique de Maillage
+# Génération Automatique de Maillage
 
 Projet sur la génération automatique de Maillage
