@@ -8,3 +8,4 @@ Pour mieux comprendre le projet et les algorithmes mis en place : voir le rappor
 
 ![Résultats](./Images/img_100.png "Maillage pour un nuage de 100 points")
 ![Résultats2](./Images/poly_ide_conv.png "Maillage régulier d'un polygone convexe")
+![Résultats3](./Images/poly_ide_conv.png "Maillage régulier approximatif d'un polygone non convexe")
