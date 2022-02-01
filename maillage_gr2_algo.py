@@ -4,6 +4,309 @@ import numpy as np
 import random 
 import math
 
+
+# Cas 1 : Carre
+
+def grille_carre(c, f):
+    
+    """ int * int -> list[tuple(int)]
+    
+        Retourne les coordonnees des points formant la grille d'un carre de cote c et d'echantillonnage f. """
+        
+    grille = [(x * c / f, y * c / f) for y in range(f + 1) for x in range(f + 1)]
+        
+    return grille
+    
+
+def maillage_auto(c, f):
+    
+    """ int * int -> void
+    
+        Dessine un maillage (automatique) d'un carre de cote c et d'echantillonnage f. """
+    
+    grille = grille_carre(c, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    
+    plt.triplot(x, y)
+    
+    return
+
+
+def triangulation_regulier(c, f):
+    
+    """ int * int -> plt.tri.triangulation object
+    
+        Retourne un trigulation regulier d'un carre de cote c et d'echantillonnage f. """
+        
+    grille = grille_carre(c, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    connectivite = []
+    
+    nbp_line = f + 1
+    
+    for j in range(f):
+        for i in range(f):
+            connectivite.append([i + j * nbp_line, i + j * nbp_line + nbp_line, i + 1 + j * nbp_line + nbp_line])
+            connectivite.append([i + j * nbp_line, i + 1 + j * nbp_line, i + 1 + j * nbp_line + nbp_line])
+    
+    return tri.Triangulation(x, y, connectivite)
+
+
+def maillage_regulier(c, f):
+    
+    """ int * int -> void
+    
+        Dessine un maillage regulier d'un carre de cote c et d'echantillonnage f. """
+        
+    triang = triangulation_regulier(c, f)
+    plt.triplot(triang)
+
+    return
+
+
+def triangulation_regulier_inv(c, f):
+    
+    """ int * int -> plt.tri.triangulation object
+    
+        Retourne un trigulation regulier inverse d'un carre de cote c et d'echantillonnage f. """
+        
+    grille = grille_carre(c, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    connectivite = []
+    
+    nbp_line = f + 1
+    
+    for j in range(f):
+        for i in range(f):
+            connectivite.append([i + j * nbp_line, i + j * nbp_line + nbp_line, i + 1 + j * nbp_line])
+            connectivite.append([i + 1 + j * nbp_line + nbp_line, i + 1 + j * nbp_line, i + j * nbp_line + nbp_line])
+    
+    return tri.Triangulation(x, y, connectivite)
+    
+
+def maillage_regulier_inv(c, f):
+    
+    """ int * int -> void
+    
+        Dessine un maillage regulier inverse d'un carre de cote c et d'echantillonnage f. """
+        
+    triang = triangulation_regulier_inv(c, f)
+    plt.triplot(triang)
+
+    return
+
+
+# Cas 2 : rectangle
+
+def grille_rectangle(nb_extra, l, f) :
+    
+    """ int * int * int -> list[tuple(int)] 
+
+        Retourne les coordonnees des points formant la grille d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre.  """      
+    
+    grille = [(x * l / f, y * l / f) for y in range(f + 1) for x in range(f + nb_extra + 1)]
+        
+    return grille
+
+
+def maillage_auto_rec(nb_extra, l, f):
+    
+    """ int * int * int -> void
+    
+        Dessine un maillage (automatique) d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre. """
+    
+    grille = grille_rectangle(nb_extra, l, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    
+    plt.triplot(x, y)
+    
+    return
+
+
+def triangulation_regulier_rec(nb_extra, l, f):
+    
+    """ int * int *int  -> plt.tri.triangulation object
+    
+        Retourne un trigulation regulier d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre. """
+        
+    grille = grille_rectangle(nb_extra, l, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    connectivite = []
+    
+    nbp_line = f + nb_extra + 1
+    
+    for j in range(f):
+        for i in range(f + nb_extra):
+            connectivite.append([i + j * nbp_line, i + j * nbp_line + nbp_line, i + 1 + j * nbp_line + nbp_line])
+            connectivite.append([i + j * nbp_line, i + 1 + j * nbp_line, i + 1 + j * nbp_line + nbp_line])
+    
+    return tri.Triangulation(x, y, connectivite)
+
+
+def maillage_regulier_rec(nb_extra, l, f):
+    
+    """ int * int * int -> void
+    
+        Dessine un maillage regulier d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre. """
+        
+    triang = triangulation_regulier_rec(nb_extra, l, f)
+    plt.triplot(triang)
+
+    return
+    
+    
+def triangulation_regulier_inv_rec(nb_extra, l, f):
+    
+    """ int * int * int -> plt.tri.triangulation object
+    
+        Retourne un trigulation regulier inverse d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre. """
+        
+    grille = grille_rectangle(nb_extra, l, f)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    connectivite = []
+    
+    nbp_line = f + nb_extra + 1
+    
+    for j in range(f):
+        for i in range(f + nb_extra):
+            connectivite.append([i + j * nbp_line, i + j * nbp_line + nbp_line, i + 1 + j * nbp_line])
+            connectivite.append([i + 1 + j * nbp_line + nbp_line, i + 1 + j * nbp_line, i + j * nbp_line + nbp_line])
+    
+    return tri.Triangulation(x, y, connectivite)
+    
+
+def maillage_regulier_inv_rec(nb_extra, l, f):
+    
+    """ int * int * int -> void
+    
+        Dessine un maillage regulier inverse d'un rectangle de largeur l et de longueur nb_extra * (l / f) + l et d'echantillonnage f pour le sous carre. """
+        
+    triang = triangulation_regulier_inv_rec(nb_extra, l, f)
+    plt.triplot(triang)
+
+    return
+    
+
+# Cas non regulier
+    
+def grille_non_reg(L, l, c):
+    
+    """ int * int * int -> list[tuple(int)]
+    
+        Retourne une grille non reguliere contenant un sous carre. """
+        
+    nb_Lc = int(L / c)
+    nb_lc = int(l / c)
+    grille = []
+    
+    for y in range(nb_lc + 1):
+        for x in range(nb_Lc + 1):
+            grille.append((x * c, y * c))
+        
+        if nb_Lc != L / c :
+            grille.append((L, y * c))
+    
+    if nb_lc != l / c :
+        for x in range(nb_Lc + 1):
+            grille.append((x * c, l))
+    
+        if nb_Lc != L / c :
+            grille.append((L, l))
+    
+    return grille
+
+
+def triangulation_non_reg(L, l, c):
+    
+    """ int * int * int -> plt.tri.Triangulation object
+
+        Retourne une triangulation non regulier. """
+        
+    grille = grille_non_reg(L, l, c)
+    
+    x = [k for (k, l) in grille]
+    y = [l for (k, l) in grille]
+    connectivite = []
+    
+    nbp_Lline = int(L / c)
+    nbp_lline = int(l / c)
+    if nbp_Lline != L / c :
+        nbp_L = nbp_Lline + 2
+    else : 
+        nbp_L = nbp_Lline + 1
+        
+    if nbp_lline != l / c :
+        nbp_l = nbp_lline + 2
+    else : 
+        nbp_l = nbp_lline + 1
+    
+    for j in range(nbp_l - 1):
+        for i in range(nbp_L - 1):
+            connectivite.append([i + j * nbp_L, i + j * nbp_L + nbp_L, i + 1 + j * nbp_L + nbp_L])
+            connectivite.append([i + j * nbp_L, i + 1 + j * nbp_L, i + 1 + j * nbp_L + nbp_L])
+    
+    return tri.Triangulation(x, y, connectivite)
+
+
+def maillage_qcq(L, l, c):
+    
+    """ int * int * int -> void
+    
+        Retourne un maillage d'un rectangle. """
+        
+    t = triangulation_non_reg(L, l, c)
+    plt.triplot(t)
+    
+    return
+
+
+def pgcd(a, b):  
+    
+    """ int * int -> int
+    
+        Retourne le pgcd de a et b. """
+    
+    while a % b != 0 : 
+        a, b = b, a % b 
+    
+    return b
+
+
+def maillage_b(L, l):
+    
+    """ int * int -> void
+    
+        Retourne un maillage avec de bon proportion. """
+        
+    c = pgcd(L, l)
+    
+    if c != 1 :
+        for i in range(2, c + 1):
+            if c % i == 0:
+                c = i
+                break
+    
+    t = triangulation_non_reg(L, l, c)
+    plt.triplot(t)
+    
+    return
+
+
+###############################################################################
+
+
 def nuage_pts(a, nb):
     
     """ int * int -> list[tuple(float)]
@@ -1114,16 +1417,3 @@ def affichage_multi_maillages(poly, f) :
     plt.triplot(t[0], color = "red")
     
     return 
-                
-
-
-
-
-
-
-
-
-
-
-
-
