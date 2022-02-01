@@ -6,4 +6,4 @@ Pour mieux comprendre le projet et les algorithmes mis en place : voir le rappor
   
 ## Exemples de maillage pour un nuage de points  
 
-![Résultats](./Images/image fill color.png "Identification des motifs sur les protéines 1gjm et 3cpp")
+![Résultats](./Images/img_100.png "Maillage pour un nuage de 100 points")
